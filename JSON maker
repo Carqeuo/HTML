@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Directory met foto's
+IMAGE_DIR="/mnt/nextcloud-fotos"
+
+# Doelmap voor list.json (moet leesbaar zijn voor Apache)
+OUTPUT_DIR="$IMAGE_DIR/fotos"
+OUTPUT_FILE="$OUTPUT_DIR/list.json"
+
+# Zorg dat de doelmap bestaat
+mkdir -p "$OUTPUT_DIR"
+
+# Ga naar de foto directory
+cd "$IMAGE_DIR" || exit 1
+
+# Maak JSON lijst van alle jpg en png bestanden en sla op in list.json
+ls *.jpg *.jpeg *.png 2>/dev/null | jq -R -s -c 'split("\n")[:-1]' > "$OUTPUT_FILE"
